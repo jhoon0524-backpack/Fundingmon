@@ -15,11 +15,11 @@
 - [x] 인풋 맵 등록: `move_up/down/left/right`, `confirm`(Z·Enter), `cancel`(X)
 
 ## [플레이어]
-- [ ] 임시 플레이어 스프라이트 준비 (단색 사각형이라도 무방)
-- [ ] `Player.tscn` 생성: CharacterBody2D + Sprite2D + CollisionShape2D
-- [ ] `player.gd`: 4방향 이동 구현, 이동속도 120
-- [ ] 이동 방향에 따라 상하좌우 스프라이트 전환
-- [ ] Main 씬에 Player 배치, Camera2D를 Player 자식으로 이동
+- [x] 임시 플레이어 스프라이트 준비 (단색 사각형이라도 무방)
+- [x] `Player.tscn` 생성: CharacterBody2D + Sprite2D + CollisionShape2D
+- [x] `player.gd`: 4방향 이동 구현, 이동속도 120
+- [x] 이동 방향에 따라 상하좌우 스프라이트 전환
+- [x] Main 씬에 Player 배치, Camera2D를 Player 자식으로 이동
 - [ ] TileMapLayer로 임시 필드 맵 1개 제작
 - [ ] 맵 경계와 장애물에 충돌 타일 설정, 통과 불가 확인
 - [ ] Camera2D limit 설정으로 맵 바깥이 보이지 않게 제한
@@ -103,6 +103,6 @@
 
 ## [QA]
 - [x] `godot --path . --quit-after 300` 자동 검사가 에러 없이 끝나는지 확인
-- [ ] 스크린샷 캡처 명령을 정리해 `PROGRESS.md` 에 기록
+- [x] 스크린샷 캡처 명령을 정리해 `PROGRESS.md` 에 기록
 - [ ] 전투 화면 시각 QA — 레이어 겹침, UI 텍스트 넘침 확인
 - [ ] 필드 화면 시각 QA — 타일 이음새, 캐릭터 발밑 정렬 확인

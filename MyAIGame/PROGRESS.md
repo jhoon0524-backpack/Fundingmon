@@ -33,13 +33,31 @@
   - 검증 스크립트 추가: `tools/verify_resources.gd`, `tools/verify_battle_rules.gd`
   - TASKS.md [기반] 9개, 데이터 정의 6개, QA 1개 체크 (총 16개)
 
+- [데이터] 아이디 12종 `moves` 배열에 기술 연결 (2026-09-12)
+  - 도감 표 그대로 1단계는 1단계 기술, 2·3단계는 2~3단계 기술 1개씩. 밸런스 검증 범위를 지키려고
+    2·3단계에 1단계 기술을 같이 넣지 않았다. 기술을 늘릴 때는 36개 조합 턴 수를 다시 확인할 것
+  - `.tres` 에 손으로 적은 타입 배열 문법 `Array[ExtResource("스크립트")]([...])` 이 정상 로드됨을 확인
+- [플레이어] 임시 스프라이트 + Player 씬 + 4방향 이동 + 카메라 (2026-09-12)
+  - `tools/render_player.py` 로 32x32 8장 렌더링 (4방향 x 2프레임). `check_sprite.py` 8장 모두 통과
+  - `assets/sprites/player/player_frames.tres` SpriteFrames 4개 애니메이션, 8fps (2프레임 0.25초 루프)
+  - `scenes/Player.tscn`: CharacterBody2D(원점=발밑) + AnimatedSprite2D + 발밑 12x8 충돌 + Camera2D
+  - `scripts/player.gd`: 120px/s, 대각선 입력은 큰 축만 남기는 4방향 이동, 멈추면 첫 프레임 고정
+  - `scenes/Main.tscn`: Player 를 (320,180) 에 배치, Camera2D 는 Player 자식으로 옮김
+  - QA 1 통과, QA 2 는 `tools/qa_screenshot.gd` 가 오른쪽 입력을 30프레임 넣어 58px 이동 확인,
+    QA 3 스크린샷에서 화면 중앙에 오른쪽 보는 플레이어 확인
+
 ## 다음에 진행할 작업
-- [플레이어] 임시 플레이어 스프라이트 준비 (단색 사각형이라도 무방)
-- 에디터에서 아이디 12종의 `moves` 배열에 기술 연결 (`IDI_DEX.md` 기술 표 참고)
+- [플레이어] TileMapLayer로 임시 필드 맵 1개 제작 (타일셋 1장이 먼저 필요 → [아트] 필드 타일셋 항목을 먼저 할 것)
+- [플레이어] 맵 경계와 장애물에 충돌 타일 설정, 통과 불가 확인
 
 ## 버그 및 주의사항
 - 이 PC 의 Godot 경로: `C:/Users/82103/Downloads/Godot_v4.7.2-stable_win64.exe/`
   (헤드리스 검증은 `_console.exe` 를 쓴다). PATH 에는 없다.
+- 스크린샷 QA 명령 (창이 잠깐 뜬다. 헤드리스로는 렌더링이 안 되니 `--headless` 를 빼야 한다):
+  `godot --path . --script tools/qa_screenshot.gd -- <저장할 png 절대경로>`
+  메인 씬을 띄우고 오른쪽 입력을 30프레임 넣은 뒤 40프레임째에 640x360 으로 캡처한다.
+  캡처 후 이미지 파일을 직접 읽어 확인할 것. 이 PC 는 오디오 장치가 없어 WASAPI 오류가
+  찍히지만 더미 드라이버로 넘어가므로 무시해도 된다.
 - 헤드리스 검증 명령 (에디터 없이 돌릴 수 있다):
   - `godot --headless --path . --script tools/verify_resources.gd` — 리소스·설정·인풋맵
   - `godot --headless --path . --script tools/verify_battle_rules.gd` — 전투 계산식
