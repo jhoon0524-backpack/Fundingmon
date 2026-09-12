@@ -24,17 +24,29 @@
   - 자율 루프 4대 원칙, 하이브리드 에셋 표준, QA 3단계, 종료 프로토콜
   - TASKS.md 에 파이썬 렌더링 3개와 [QA] 카테고리 4개 추가 (총 80개)
 
+- [검증] 사용자 PC 에서 Godot 4.7.2 로 프로젝트를 열어 확인 (2026-09-12)
+  - 에디터 정상 실행, 인풋 맵 6개, 해상도 640x360 / 창 1280x720, stretch viewport/keep,
+    Nearest 필터, gl_compatibility 모두 적용 확인
+  - `.tres` 20개(아이디 12, 기술 8) 에러 없이 로드, 진화 참조 8개 연결 확인
+  - `--headless --quit-after 300` 에러 없이 종료
+  - 전투 계산식 콘솔 검증 통과 (상성 4x4, 데미지, 영입 성공률)
+  - 검증 스크립트 추가: `tools/verify_resources.gd`, `tools/verify_battle_rules.gd`
+  - TASKS.md [기반] 9개, 데이터 정의 6개, QA 1개 체크 (총 16개)
+
 ## 다음에 진행할 작업
-- [기반] Godot으로 프로젝트를 열어 설정이 정상 적용됐는지 확인 (사용자 PC 필요)
+- [플레이어] 임시 플레이어 스프라이트 준비 (단색 사각형이라도 무방)
+- 에디터에서 아이디 12종의 `moves` 배열에 기술 연결 (`IDI_DEX.md` 기술 표 참고)
 
 ## 버그 및 주의사항
-- **아직 어떤 항목도 체크하지 않았다.** Godot 실행 검증을 못 한 상태다.
-  에디터로 한 번 열어 확인한 뒤 체크할 것.
-- 에디터를 처음 열면 확인할 것
-  1. Project Settings > Input Map 에 6개 액션이 보이는가
-  2. Project Settings > Display > Window 해상도가 640x360 인가
-  3. `data/` 의 .tres 20개가 에러 없이 열리는가 (아이디 12, 기술 8)
-  4. F5로 실행했을 때 에러 없이 빈 화면이 뜨는가
+- 이 PC 의 Godot 경로: `C:/Users/82103/Downloads/Godot_v4.7.2-stable_win64.exe/`
+  (헤드리스 검증은 `_console.exe` 를 쓴다). PATH 에는 없다.
+- 헤드리스 검증 명령 (에디터 없이 돌릴 수 있다):
+  - `godot --headless --path . --script tools/verify_resources.gd` — 리소스·설정·인풋맵
+  - `godot --headless --path . --script tools/verify_battle_rules.gd` — 전투 계산식
+  - `godot --headless --path . --quit-after 300` — 메인 씬 실행 검사
+- 에디터를 처음 열면 `project.godot` 을 Godot 이 자기 포맷으로 다시 쓴다
+  (`config/features` 추가, 기본값인 `stretch/aspect="keep"` 은 생략, 인풋 이벤트 풀 포맷).
+  값은 그대로이므로 놀라지 말 것. `.uid` 파일도 생성되는데 이건 커밋 대상이다.
 - **아이디의 `moves` 배열은 비어 있다.** 타입 배열을 .tres 에 손으로 적으면
   깨질 위험이 있어 비워 뒀다. 에디터에서 각 아이디에 기술을 끌어다 넣을 것.
   어떤 기술을 넣을지는 `IDI_DEX.md` 의 기술 표 '사용 단계' 열을 볼 것.
